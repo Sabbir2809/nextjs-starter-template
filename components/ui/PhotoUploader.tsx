@@ -32,12 +32,12 @@ function PhotoUploader({ onUploaded }: Props) {
       formData.append("frontImage", image);
       formData.append("documentType", "static_image");
 
-      const apiUrl = `${process.env.NEXT_PUBLIC_DRIVER_SERVICE_API}/admin/document/upload`;
+      const apiUrl = `${process.env.NEXT_PUBLIC_CDN_MEDIA_UPLOAD_URL}/admin/document/upload`;
       const response = await Friday.upload(new URL(apiUrl), formData);
 
       if (response) {
         toast.success(response?.message);
-        if (onUploaded) await onUploaded(response?.url); // Updated to avoid ESLint error
+        if (onUploaded) await onUploaded(response?.url);
         handleReset();
       }
     } catch (e) {
@@ -64,20 +64,14 @@ function PhotoUploader({ onUploaded }: Props) {
               <p className="mt-2 text-sm text-gray-600">Select an image</p>
             </div>
           )}
-          <input
-            id="inputId"
-            onChange={onSelectFile}
-            type="file"
-            className="hidden"
-          />
+          <input id="inputId" onChange={onSelectFile} type="file" className="hidden" />
         </label>
 
         {image && (
           <div className="absolute top-0 flex justify-between w-full p-2">
             <button
               onClick={handleReset}
-              className="bg-blue-500 text-white p-2 rounded-full"
-            >
+              className="bg-blue-500 text-white p-2 rounded-full">
               <CircleX />
             </button>
             <button
@@ -85,8 +79,7 @@ function PhotoUploader({ onUploaded }: Props) {
               disabled={upload}
               className={`bg-blue-600 text-white p-2 rounded-lg flex items-center ${
                 upload ? "opacity-50" : ""
-              }`}
-            >
+              }`}>
               {upload ? (
                 <div className="animate-spin h-4 w-4 border-2 border-white rounded-full border-t-transparent" />
               ) : (
@@ -114,10 +107,7 @@ export const PhotoUploadModal = ({
 }: TModalProps) => {
   const handleClose = (event: React.MouseEvent | React.KeyboardEvent) => {
     // Prevent closing on backdrop or escape key
-    if (
-      event.type === "keydown" &&
-      (event as React.KeyboardEvent).key === "Escape"
-    )
+    if (event.type === "keydown" && (event as React.KeyboardEvent).key === "Escape")
       return;
     if (onCloseModal) onCloseModal();
   };
@@ -135,29 +125,26 @@ export const PhotoUploadModal = ({
       document.body.style.overflow = "unset";
     }
     return () => {
-      document.body.style.overflow = "unset"; // Clean up on unmount
+      document.body.style.overflow = "unset";
     };
   }, [open]);
 
-  if (!open) return null; // Don't render if not open
+  if (!open) return null;
 
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-      onClick={handleClose}
-    >
+      onClick={handleClose}>
       <div
         className="bg-white rounded-lg shadow-lg overflow-hidden max-w-lg w-full"
-        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
-      >
+        onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between p-4 border-b">
           <h2 className="text-lg font-semibold">Upload Image</h2>
           {onCloseModal && (
             <button
               aria-label="close"
               onClick={onCloseModal}
-              className="text-gray-600 hover:text-gray-800"
-            >
+              className="text-gray-600 hover:text-gray-800">
               <X />
             </button>
           )}

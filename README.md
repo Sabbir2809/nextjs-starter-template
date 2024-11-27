@@ -20,7 +20,7 @@
 
    ```bash
    git clone
-   cd
+   cd https://github.com/Sabbir2809/nextjs-starter-template
    ```
 
 2. Install dependencies:

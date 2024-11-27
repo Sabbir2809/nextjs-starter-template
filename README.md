@@ -11,7 +11,6 @@
 - **Programming Language:** TypeScript
 - **Web Framework:** Next.js
 - **State Management:** Context API
-- **Component Library:** Tailwind CSS
 - **Authentication:** JWT (JSON Web Tokens)
 
 ## Project Setup Instructions

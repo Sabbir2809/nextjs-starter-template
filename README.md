@@ -18,8 +18,8 @@
 1. Clone the repository:
 
    ```bash
-   git clone
-   cd https://github.com/Sabbir2809/nextjs-starter-template
+   git clone https://github.com/Sabbir2809/nextjs-starter-template
+   cd nextjs-starter-template
    ```
 
 2. Install dependencies:

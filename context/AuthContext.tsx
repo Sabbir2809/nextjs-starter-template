@@ -106,8 +106,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         logout,
         refreshAuth,
         updateAuth,
-      }}
-    >
+      }}>
       {children}
     </AuthContext.Provider>
   );

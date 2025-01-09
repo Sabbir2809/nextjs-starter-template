@@ -13,4 +13,3 @@ interface IAuth {
   email: string;
   type: string;
 }
-

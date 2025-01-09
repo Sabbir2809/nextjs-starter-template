@@ -1,26 +1,25 @@
+import Footer from "@/components/common/Footer";
+import Navbar from "@/components/common/Navbar";
 import TanStackQueryProvider from "@/lib/TanStackQueryProvider";
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Geist, Geist_Mono } from "next/font/google";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 
-// Local Fonts
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+const geistSans = Geist({
   variable: "--font-geist-sans",
-  weight: "100 900",
+  subsets: ["latin"],
 });
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
+
+const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
-  weight: "100 900",
+  subsets: ["latin"],
 });
 
 // Metadata configuration for the HTML document
 export const metadata: Metadata = {
-  title: "Next Js Template",
-  description: "Next Js Template",
+  title: "Next.js Starter Template",
+  description: "Next.js Starter Template",
 };
 
 // Root layout component
@@ -34,8 +33,10 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {/* Main provider component for TanStack React Query */}
         <TanStackQueryProvider>
+          <Navbar></Navbar>
           {/* Wrapping the main content passed as children */}
           {children}
+          <Footer></Footer>
         </TanStackQueryProvider>
         <ToastContainer />
       </body>

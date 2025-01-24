@@ -1,13 +1,12 @@
 "use client";
 import { useEffect } from "react";
 
-export default function Error({
-  error,
-  reset,
-}: {
+interface IErrorProps {
   error: Error & { digest?: string };
   reset: () => void;
-}) {
+}
+
+export default function Error({ error, reset }: IErrorProps) {
   useEffect(() => {
     // Log the error to an error reporting service
     console.error(error);

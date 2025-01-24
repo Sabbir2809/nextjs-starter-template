@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// Metadata configuration for the HTML document
+// Metadata for SEO
 export const metadata: Metadata = {
   title: "Next.js Starter Template",
   description: "Next.js Starter Template",
@@ -30,11 +30,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {/* Main provider component for TanStack React Query */}
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased suppressHydrationWarning`}>
+        {/* TanStack React Query Provider */}
         <TanStackQueryProvider>
           <Navbar></Navbar>
-          {/* Wrapping the main content passed as children */}
+          {/* Main content passed as children */}
           {children}
           <Footer></Footer>
         </TanStackQueryProvider>

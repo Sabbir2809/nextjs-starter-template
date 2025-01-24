@@ -32,7 +32,7 @@ function PhotoUploader({ onUploaded }: Props) {
       formData.append("frontImage", image);
       formData.append("documentType", "static_image");
 
-      const apiUrl = `${process.env.NEXT_PUBLIC_CDN_MEDIA_UPLOAD_URL}/admin/document/upload`;
+      const apiUrl = `${process.env.NEXT_PUBLIC_CDN_UPLOAD_URL}/admin/document/upload`;
       const response = await Friday.upload(new URL(apiUrl), formData);
 
       if (response) {

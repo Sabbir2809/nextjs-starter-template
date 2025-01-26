@@ -47,7 +47,7 @@ function PhotoUploader({ onUploaded }: Props) {
   };
 
   return (
-    <div className="border p-4 rounded-lg shadow">
+    <div className="border p-4 rounded-lg shadow-sm">
       <div className="relative">
         {image && (
           <Image

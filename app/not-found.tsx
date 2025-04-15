@@ -1,17 +1,29 @@
+import Image from "next/image";
 import Link from "next/link";
 
-export default function NotFound() {
+export default function NotFoundPage() {
   return (
-    <section className="bg-gray-100 h-screen flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-9xl font-extrabold text-red-500 mb-6">404</h1>
-        <p className="text-2xl md:text-4xl font-semibold text-gray-800 mb-4">
-          Oops! Page Not Found
+    <section className="flex items-center justify-center min--h-screen px-6">
+      <div className="text-center w-full max-w-md p-8">
+        <Image
+          src="/images/404.png"
+          alt="Page Not Found"
+          width={300}
+          height={300}
+          className="mx-auto mb-6"
+        />
+        <h1 className="text-3xl font-semibold text-green-600 mb-4">
+          Page Not Found!
+        </h1>
+        <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+          Sorry! The page you are looking for does not exist. Please return to
+          the homepage.
         </p>
         <Link
           href="/"
-          className="inline-flex items-center justify-center bg-red-500 text-white hover:bg-red-600 focus:ring-4 focus:ring-red-300 rounded-lg text-sm px-6 py-3 font-medium shadow-lg transition-all">
-          Back to Homepage
+          className="inline-block px-6 py-3 bg-green-600 text-white font-semibold uppercase hover:bg-green-700 transition"
+        >
+          Go to Homepage
         </Link>
       </div>
     </section>

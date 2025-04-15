@@ -1,30 +1,35 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { AUTH_USER_KEY } from "./constants";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const authKey = process.env.NEXT_PUBLIC_AUTH_USER_KEY || "_auth";
-  const authData = request.cookies.get(authKey)?.value;
-  const isAuthenticated = Boolean(
-    authData && JSON.parse(authData)?.state?.auth
-  );
+  const authCookie = request.cookies.get(AUTH_USER_KEY)?.value;
 
-  // Define conditions for route types
+  let isAuthenticated = false;
+  try {
+    isAuthenticated = Boolean(authCookie && JSON.parse(authCookie));
+  } catch {
+    isAuthenticated = false;
+  }
+
+  // Define route types
   const isPrivateRoute = pathname.startsWith("/private");
   const isAuthPage = pathname === "/login" || pathname === "/registration";
 
-  // Redirects based on authentication state
+  // Unauthenticated user trying to access a private page
   if (isPrivateRoute && !isAuthenticated) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
+  // Authenticated user trying to access login/registration
   if (isAuthenticated && isAuthPage) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   return NextResponse.next();
 }
 
-// Apply middleware to specific paths
+// Apply middleware only to matching routes
 export const config = {
   matcher: ["/private/:path*", "/login", "/registration"],
 };

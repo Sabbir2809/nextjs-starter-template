@@ -1,15 +1,16 @@
-interface IAuthContext {
-  isLoading: boolean;
-  auth?: IAuth;
-  updateAuth: (auth: IAuth) => void;
-  login: (mobileNumber: string, password: string) => void;
-  register: (data: object) => void;
-  logout: () => void;
-  refreshAuth: () => Promise<void>;
-}
-
-interface IAuth {
+export interface IAuth {
   name: string;
   email: string;
+  phone: string;
   type: string;
+}
+
+export interface IAuthContext {
+  isLoading: boolean;
+  auth?: IAuth;
+  registration: (data: IAuth) => Promise<void>;
+  login: (phone: string, password: string) => Promise<void>;
+  updateAuth: (auth: IAuth) => void;
+  refreshAuth: () => Promise<void>;
+  logout: () => void;
 }

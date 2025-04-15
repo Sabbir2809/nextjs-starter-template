@@ -11,7 +11,7 @@
 - **Programming Language:** TypeScript
 - **Web Framework:** Next.js
 - **State Management:** Context API
-- **Authentication:** JWT (JSON Web Tokens)
+- **Packages:** @tanstack/react-query, axios, react-icons, react-toastify, react-hook-form, cookies-next
 
 ## Project Setup Instructions
 
@@ -24,23 +24,24 @@
 
 2. Install dependencies:
    ```bash
-   yarn install
+   yarn install # npm install
    ```
 3. Setup environment variables in `.env`.
 
    ```bash
-   NEXT_PUBLIC_ENVIRONMENT=
+    NEXT_PUBLIC_ENVIRONMENT=
 
-   NEXT_PUBLIC_JWT_TOKEN_KEY=
-   NEXT_PUBLIC_AUTH_USER_KEY=
-   NEXT_PUBLIC_AUTH_USER_TYPE=
-   NEXT_PUBLIC_REFRESH_TOKEN=
+    NEXT_PUBLIC_JWT_TOKEN_KEY=
+    NEXT_PUBLIC_AUTH_USER_KEY=
+    NEXT_PUBLIC_AUTH_USER_TYPE=
+    NEXT_PUBLIC_REFRESH_TOKEN=
 
-   NEXT_PUBLIC_AUTH_BASE_URL=
-   NEXT_PUBLIC_WRITE_BASE_URL=
-   NEXT_PUBLIC_READER_BASE_URL=
+    NEXT_PUBLIC_FRONTEND_BASE_URL=
+    NEXT_PUBLIC_AUTH_BACKEND_BASE_URL=
+    NEXT_PUBLIC_WRITE_BACKEND_BASE_URL=
+    NEXT_PUBLIC_READER_BACKEND_BASE_URL=
 
-   NEXT_PUBLIC_CDN_UPLOAD_URL=
+    NEXT_PUBLIC_CDN_UPLOAD_URL=
    ```
 
 4. Run the development server:

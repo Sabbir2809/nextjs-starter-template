@@ -1,18 +1,14 @@
-import Footer from "@/components/common/Footer";
-import Navbar from "@/components/common/Navbar";
-import TanStackQueryProvider from "@/lib/TanStackQueryProvider";
+import Footer from "@/components/shared/Footer";
+import Navbar from "@/components/shared/Navbar";
+import TanStackQueryProvider from "@/lib/TanStackQuery";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist } from "next/font/google";
 import { ToastContainer } from "react-toastify";
 import "./globals.css";
 
+// Geist Sans font
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -31,8 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased suppressHydrationWarning`}>
-        {/* TanStack React Query Provider */}
+        className={`${geistSans.variable} antialiased suppressHydrationWarning`}
+      >
+        {/* TanStack React Query */}
         <TanStackQueryProvider>
           <Navbar></Navbar>
           {/* Main content passed as children */}

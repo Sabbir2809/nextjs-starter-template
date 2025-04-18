@@ -1,5 +1,5 @@
 import { WRITE_BACKEND_BASE_URL } from "@/constants";
-import { createAPI } from "@/lib/apiClient";
+import { createAPI } from "@/lib/axios/createAPI";
 
 const WRITER = createAPI(WRITE_BACKEND_BASE_URL);
 

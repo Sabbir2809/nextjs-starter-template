@@ -14,7 +14,6 @@ export function middleware(request: NextRequest) {
 
   // Define route types
   const isPrivateRoute = pathname.startsWith("/private");
-  const isAuthPage = pathname === "/login" || pathname === "/registration";
 
   // Unauthenticated user trying to access a private page
   if (isPrivateRoute && !isAuthenticated) {
@@ -22,9 +21,10 @@ export function middleware(request: NextRequest) {
   }
 
   // Authenticated user trying to access login/registration
-  if (isAuthenticated && isAuthPage) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
+  // const isAuthPage = pathname === "/login" || pathname === "/registration";
+  // if (isAuthenticated && isAuthPage) {
+  //   return NextResponse.redirect(new URL("/", request.url));
+  // }
 
   return NextResponse.next();
 }

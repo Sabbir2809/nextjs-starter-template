@@ -1,16 +1,21 @@
-export interface IAuth {
+interface IAuth {
   name: string;
   email: string;
   phone: string;
   type: string;
+  isPhoneVerified: boolean;
 }
 
-export interface IAuthContext {
+interface ILoginPayload {
+  phone: string;
+  password: string;
+}
+
+interface IAuthContext {
   isLoading: boolean;
   auth?: IAuth;
   registration: (data: IAuth) => Promise<void>;
-  login: (phone: string, password: string) => Promise<void>;
-  updateAuth: (auth: IAuth) => void;
-  refreshAuth: () => Promise<void>;
+  login: (data: ILoginPayload) => Promise<void>;
   logout: () => void;
+  refreshToken: () => Promise<void>;
 }

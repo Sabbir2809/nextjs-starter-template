@@ -1,7 +1,7 @@
-import { WRITE_BACKEND_BASE_URL } from "@/constants";
+import { WRITER_BACKEND_BASE_URL } from "@/constants";
 import { createAPI } from "@/lib/axios/createAPI";
 
-const WRITER = createAPI(WRITE_BACKEND_BASE_URL);
+const WRITER = createAPI(WRITER_BACKEND_BASE_URL);
 
 export const updateOrder = async (orderId: string, body: object) => {
   const response = await WRITER.put(`/orders/${orderId}`, body);

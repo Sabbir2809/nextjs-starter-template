@@ -1,7 +1,6 @@
 import { createContext } from "react";
 
 export const initialState: IAuthContext = {
-  isLoading: true,
   auth: undefined,
   registration: async () => {},
   login: async () => {},

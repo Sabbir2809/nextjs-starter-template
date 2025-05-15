@@ -1,9 +1,8 @@
-import FullScreenLoader from "@/app/loading";
-import { deleteCookie, getCookie, setCookie } from "cookies-next/client";
+import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { JWT_TOKEN_KEY } from "../constants";
+import { AUTH_USER_KEY, JWT_TOKEN_KEY } from "../constants";
 import { AUTH_API } from "../services/auth-api";
 import { AuthContext } from "./auth-context";
 
@@ -13,57 +12,53 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [auth, setAuth] = useState<IAuth | undefined>();
-  const [isLoading, setIsLoading] = useState(true);
-  const navigate = useRouter();
+  const router = useRouter();
 
-  // registration
   const registration = async (data: IAuth) => {
     try {
-      setIsLoading(true);
       const token = await AUTH_API.registration(data);
       setCookie(JWT_TOKEN_KEY, token);
+      const user = await AUTH_API.myProfile();
+      setCookie(AUTH_USER_KEY, JSON.stringify(user));
+      setAuth(user);
       toast.success("Registration successful");
-      navigate.push("/login");
+      router.push("/login");
     } catch (error) {
       console.error("Registration failed:", error);
       toast.error("Registration failed");
-    } finally {
-      setIsLoading(false);
     }
   };
 
-  // login
   const login = async (data: ILoginPayload) => {
     try {
-      setIsLoading(true);
       const token = await AUTH_API.login(data);
       setCookie(JWT_TOKEN_KEY, token);
       const user = await AUTH_API.myProfile();
+      setCookie(AUTH_USER_KEY, JSON.stringify(user));
       setAuth(user);
       toast.success("Login successful");
-      navigate.push("/");
+      router.push("/");
     } catch (error) {
       console.error("Login failed:", error);
       toast.error("Login failed, please try again");
-    } finally {
-      setIsLoading(false);
     }
   };
 
-  // logout
   const logout = () => {
     setAuth(undefined);
     deleteCookie(JWT_TOKEN_KEY);
+    deleteCookie(AUTH_USER_KEY);
+    localStorage.clear();
     toast.info("Logged out");
-    navigate.push("/login");
+    router.push("/login");
   };
 
-  // refresh token
   const refreshToken = async () => {
     try {
       const token = await AUTH_API.refreshAuth();
       setCookie(JWT_TOKEN_KEY, token);
       const user = await AUTH_API.myProfile();
+      setCookie(AUTH_USER_KEY, JSON.stringify(user));
       setAuth(user);
     } catch (error) {
       console.error("Refresh token failed:", error);
@@ -71,19 +66,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  // hydrate token on first load
   useEffect(() => {
-    const token = getCookie(JWT_TOKEN_KEY);
+    const token = getCookie(JWT_TOKEN_KEY) as string;
+    const authCookie = getCookie(AUTH_USER_KEY) as string;
+
     if (token) {
-      refreshToken().finally(() => setIsLoading(false));
-    } else {
-      setIsLoading(false);
+      if (authCookie) {
+        setAuth(JSON.parse(authCookie));
+      } else {
+        AUTH_API.myProfile()
+          .then((user) => {
+            setAuth(user);
+            setCookie(AUTH_USER_KEY, JSON.stringify(user));
+          })
+          .catch(() => logout());
+      }
     }
   }, []);
 
-  // Context value
-  const contextValue = {
-    isLoading,
+  const contextValue: IAuthContext = {
     auth,
     registration,
     login,
@@ -92,8 +93,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   return (
-    <AuthContext.Provider value={contextValue}>
-      {isLoading ? <FullScreenLoader /> : children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 };

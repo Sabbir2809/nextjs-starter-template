@@ -1,14 +1,11 @@
-import { getClientJwt } from "@/utils/clientJWT";
-import { getServerJwt } from "@/utils/serverJWT";
+import { JWT_TOKEN_KEY } from "@/constants";
 import axios, {
   AxiosError,
   AxiosInstance,
   InternalAxiosRequestConfig,
 } from "axios";
+import { getCookie } from "cookies-next";
 import { toast } from "react-toastify";
-
-// Check if we are on the client-side or server-side
-const isClient = (): boolean => typeof window !== "undefined";
 
 // Create Axios instance with baseURL
 const createAxiosInstance = (baseURL: string): AxiosInstance => {
@@ -23,7 +20,7 @@ const createAxiosInstance = (baseURL: string): AxiosInstance => {
   // 🔐 Attach JWT token to requests
   instance.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
-      const token = isClient() ? getClientJwt() : getServerJwt();
+      const token = getCookie(JWT_TOKEN_KEY);
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -68,8 +65,13 @@ const createAxiosInstance = (baseURL: string): AxiosInstance => {
         errorMessage = "Network error! Please check your internet connection.";
       }
 
-      // Show error messages in a toast (client-side only)
-      if (isClient()) toast.error(errorMessage);
+      toast.error(
+        typeof response?.data === "object" &&
+          response?.data !== null &&
+          "message" in response.data
+          ? (response.data as { message: string }).message
+          : errorMessage
+      );
 
       return Promise.reject(error);
     }

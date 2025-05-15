@@ -12,7 +12,6 @@ interface ILoginPayload {
 }
 
 interface IAuthContext {
-  isLoading: boolean;
   auth?: IAuth;
   registration: (data: IAuth) => Promise<void>;
   login: (data: ILoginPayload) => Promise<void>;
